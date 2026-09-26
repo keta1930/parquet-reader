@@ -1,4 +1,4 @@
-# Parquet Reader
+# Parquet Local Reader
 
 在 VS Code 中以只读表格查看本地 Parquet 文件，支持分页、行号跳转和字段结构预览。
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2 — 2026-09-26
+
+- 市场显示名称调整为 **Parquet Local Reader**，避免已有显示名称冲突；扩展标识保持 `keta1930.parquet-local-reader`。
+
 ## 0.1.1 — 2026-09-26
 
 - 扩展标识调整为 `keta1930.parquet-local-reader`，避免 Marketplace 已有名称冲突；功能和 GitHub 仓库地址保持不变。
