@@ -1,7 +1,7 @@
 {
   "name": "parquet-local-reader",
-  "version": "0.1.2",
-  "description": "本地查看 Parquet 数据、分页浏览与字段结构预览。",
+  "version": "0.1.3",
+  "description": "View local Parquet files with paging and schema inspection.",
   "main": "./dist/extension.cjs",
   "scripts": {
     "check": "tsc --noEmit",

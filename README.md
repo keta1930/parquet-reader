@@ -1,34 +1,32 @@
 # Parquet Local Reader
 
-在 VS Code 中以只读表格查看本地 Parquet 文件，支持分页、行号跳转和字段结构预览。
-
 Browse Parquet files in a read-only VS Code table, with paging, row navigation, schema inspection and full cell values. Data is read from disk in the extension host; no network service is required.
 
-## 使用
+## Usage
 
-需要 VS Code 1.100 或更新版本。安装扩展后，点击 `.parquet` 或 `.pq` 文件即可打开阅读视图；也可以从命令面板执行 **Parquet: 打开文件**。如果文件已使用其他编辑器打开，可使用 **重新打开编辑器的方式…** 选择 **Parquet Reader**。
+Requires VS Code 1.100 or later. After installing the extension, click a `.parquet` or `.pq` file to open the reader. You can also invoke the file-opening command (`localParquet.open`) from the Command Palette. If the file is already open in another editor, use **Reopen Editor With…** and select **Parquet Reader**. The extension's command title and reader controls currently use Chinese labels.
 
-- 用 **上一页 / 下一页** 浏览，每页可选 100、250、500 或 1000 行，默认 100 行。
-- 输入从 1 开始的行号后点击 **跳转**；超出文件范围会跳到最后一行。
-- 展开 **字段结构** 查看 Parquet schema 元信息。
-- 表格中超过 500 个字符的单元格会截断显示；点击单元格或将焦点移入后按 Enter，可在下方查看完整内容。
-- **刷新当前页** 会重新读取当前行范围。文件元信息在打开时缓存；源文件被替换或结构、行数发生变化后，请关闭该文件的所有阅读标签，再重新打开。
+- Use the previous and next page controls to browse. Choose 100, 250, 500 or 1000 rows per page; the default is 100.
+- Enter a row number starting at 1 and use the jump control. A number beyond the file's row count jumps to the last row.
+- Expand the schema section to inspect Parquet schema metadata.
+- Cells longer than 500 characters are truncated in the table. Click a cell, or focus it and press Enter, to view its full contents below the table.
+- Refresh reloads the current row range. File metadata is cached when the file opens. If the source file is replaced or its schema or row count changes, close all reader tabs for that file and reopen it.
 
-顶层大整数以十进制文本显示；嵌套对象中的大整数转为字符串，日期显示为 ISO 时间，二进制值显示为 `0x` 开头的十六进制文本。此视图用于阅读，不提供可逆的数据导出。
+Top-level large integers appear as decimal text. Large integers in nested objects become strings, dates use ISO timestamps, and binary values appear as hexadecimal text prefixed with `0x`. This view is intended for reading and does not provide reversible data export.
 
-## 文件与限制
+## Files and limitations
 
-读取扩展主机所在磁盘上的文件。WSL / SSH 场景需在对应远程环境安装扩展，并打开该环境中的文件；不支持虚拟工作区或直接读取 HTTP / 对象存储 URI。
+The extension reads files from the disk accessible to the extension host. For WSL or SSH, install the extension in the corresponding remote environment and open files there. Virtual workspaces and direct access to HTTP or object storage URIs are not supported.
 
-按行范围请求数据，实际解码量取决于 Parquet 的行组与列块布局。分页不保证固定内存占用或固定读取时间，宽表、巨大单元格和大行组仍可能较慢。行数超过 JavaScript 安全整数范围的文件会被拒绝。
+Data is requested by row range, but the amount decoded depends on the Parquet row group and column chunk layout. Paging does not guarantee fixed memory usage or read time; wide tables, very large cells and large row groups may still be slow. Files with row counts beyond JavaScript's safe integer range are rejected.
 
-当前不提供全文件搜索、筛选、排序、编辑或导出。文件不会被修改；扩展没有网络请求或遥测。格式及压缩解码依赖 `hyparquet` 和 `hyparquet-compressors`，当前自动化测试覆盖未压缩、Snappy、Gzip，不能视为验证了所有 Parquet 编码、逻辑类型和压缩组合。
+Full-file search, filtering, sorting, editing and export are not currently available. Files are never modified, and the extension makes no network requests and collects no telemetry. Format and compression decoding rely on `hyparquet` and `hyparquet-compressors`. Automated tests currently cover uncompressed, Snappy and Gzip samples; this does not establish support for every combination of Parquet encoding, logical type and compression.
 
-## 安装与开发
+## Installation and development
 
-可以从源码生成 VSIX，再在扩展面板的 `…` 菜单选择 **从 VSIX 安装…**。扩展标识为 `keta1930.parquet-local-reader`，可在 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=keta1930.parquet-local-reader) 查看其可用状态。
+You can build a VSIX from source and select **Install from VSIX…** in the Extensions view's `…` menu. The extension ID is `keta1930.parquet-local-reader`; check its availability on the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=keta1930.parquet-local-reader).
 
-开发使用 Node.js 22 和 npm：
+Development uses Node.js 22 and npm:
 
 ```sh
 npm ci
@@ -38,16 +36,16 @@ npm test
 npm run package
 ```
 
-打包后选择项目根目录生成的 `parquet-local-reader-<version>.vsix` 安装。`npm test` 会先构建，然后运行 Node.js 测试，覆盖跨行组分页、空文件、无效文件、大整数显示以及使用 VS Code mock 的扩展注册和 Webview 消息链路；它不启动真实 VS Code 窗口。
+Install the resulting `parquet-local-reader-<version>.vsix` from the project root. `npm test` builds the project and runs Node.js tests for paging across row groups, empty and invalid files, large integer display, and extension registration and Webview messaging through a VS Code mock. It does not launch a real VS Code window.
 
-安装后可用一个已知内容的文件检查：默认打开方式、分页和行号跳转、字段结构、完整单元格内容、刷新和错误提示。WSL / SSH 行为需要在对应环境单独验证。
+After installation, use a file with known contents to check the default editor, paging, row navigation, schema inspection, full cell contents, refresh and error messages. Verify WSL and SSH behavior separately in those environments.
 
-## 贡献与维护
+## Contributing and maintenance
 
-欢迎通过 [Issues](https://github.com/keta1930/parquet-reader/issues) 报告问题或提交 Pull Request。请附上 VS Code 版本、运行环境、文件大小、写入工具与可公开的最小示例，不要上传私有数据。维护约束见 [AGENTS.md](https://github.com/keta1930/parquet-reader/blob/main/AGENTS.md)，版本变化见 [CHANGELOG.md](https://github.com/keta1930/parquet-reader/blob/main/CHANGELOG.md)。
+Report problems through [Issues](https://github.com/keta1930/parquet-reader/issues) or submit a pull request. Include your VS Code version, environment, file size, writer tool and a minimal sample that can be shared publicly. Do not upload private data. See [AGENTS.md](https://github.com/keta1930/parquet-reader/blob/main/AGENTS.md) for maintenance constraints and [CHANGELOG.md](https://github.com/keta1930/parquet-reader/blob/main/CHANGELOG.md) for version history.
 
-## 作者与许可
+## Authors and license
 
-作者：**keta1930** 和 **codex-gpt-6-astra**。
+Authors: **keta1930** and **codex-gpt-6-astra**.
 
-本项目使用 [MIT License](https://github.com/keta1930/parquet-reader/blob/main/LICENSE)。随扩展分发的依赖许可见 [THIRD_PARTY_NOTICES.md](https://github.com/keta1930/parquet-reader/blob/main/THIRD_PARTY_NOTICES.md)。
+This project uses the [MIT License](https://github.com/keta1930/parquet-reader/blob/main/LICENSE). Licenses for dependencies distributed with the extension are listed in [THIRD_PARTY_NOTICES.md](https://github.com/keta1930/parquet-reader/blob/main/THIRD_PARTY_NOTICES.md).
