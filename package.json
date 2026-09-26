@@ -1,6 +1,6 @@
 {
-  "name": "parquet-reader",
-  "version": "0.1.0",
+  "name": "parquet-local-reader",
+  "version": "0.1.1",
   "description": "本地查看 Parquet 数据、分页浏览与字段结构预览。",
   "main": "./dist/extension.cjs",
   "scripts": {

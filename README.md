@@ -26,7 +26,7 @@ Browse Parquet files in a read-only VS Code table, with paging, row navigation, 
 
 ## 安装与开发
 
-可以从源码生成 VSIX，再在扩展面板的 `…` 菜单选择 **从 VSIX 安装…**。扩展标识为 `keta1930.parquet-reader`，可在 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=keta1930.parquet-reader) 查看其可用状态。
+可以从源码生成 VSIX，再在扩展面板的 `…` 菜单选择 **从 VSIX 安装…**。扩展标识为 `keta1930.parquet-local-reader`，可在 [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=keta1930.parquet-local-reader) 查看其可用状态。
 
 开发使用 Node.js 22 和 npm：
 
@@ -38,7 +38,7 @@ npm test
 npm run package
 ```
 
-打包后选择项目根目录生成的 `parquet-reader-<version>.vsix` 安装。`npm test` 会先构建，然后运行 Node.js 测试，覆盖跨行组分页、空文件、无效文件、大整数显示以及使用 VS Code mock 的扩展注册和 Webview 消息链路；它不启动真实 VS Code 窗口。
+打包后选择项目根目录生成的 `parquet-local-reader-<version>.vsix` 安装。`npm test` 会先构建，然后运行 Node.js 测试，覆盖跨行组分页、空文件、无效文件、大整数显示以及使用 VS Code mock 的扩展注册和 Webview 消息链路；它不启动真实 VS Code 窗口。
 
 安装后可用一个已知内容的文件检查：默认打开方式、分页和行号跳转、字段结构、完整单元格内容、刷新和错误提示。WSL / SSH 行为需要在对应环境单独验证。
 

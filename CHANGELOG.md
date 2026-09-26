@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.1 — 2026-09-26
+
+- 扩展标识调整为 `keta1930.parquet-local-reader`，避免 Marketplace 已有名称冲突；功能和 GitHub 仓库地址保持不变。
+- 使用旧 VSIX 的用户请卸载 `yyx-local.parquet-reader` 或 `keta1930.parquet-reader`，再安装新标识，避免重复编辑器注册。
+
 ## 0.1.0 — 2026-09-26
 
 - 新增 `.parquet` / `.pq` 默认只读表格视图和 **Parquet: 打开文件** 命令。
