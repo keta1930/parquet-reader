@@ -1,0 +1,91 @@
+{
+  "name": "parquet-reader",
+  "version": "0.1.0",
+  "description": "本地查看 Parquet 数据、分页浏览与字段结构预览。",
+  "main": "./dist/extension.cjs",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "esbuild src/extension.ts --bundle --platform=node --target=node20 --format=cjs --external:vscode --outfile=dist/extension.cjs",
+    "test": "npm run build && esbuild src/reader.ts --bundle --platform=node --format=esm --outfile=dist/reader.mjs && node --test test/*.test.mjs",
+    "vscode:prepublish": "npm run check && npm run build",
+    "package": "vsce package --no-dependencies"
+  },
+  "keywords": [
+    "parquet",
+    "apache-parquet",
+    "data",
+    "viewer",
+    "reader"
+  ],
+  "author": {
+    "name": "keta1930"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "hyparquet": "^1.31.1",
+    "hyparquet-compressors": "^1.1.2"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "@types/vscode": "^1.100.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "hyparquet-writer": "^0.16.10",
+    "typescript": "^7.0.2"
+  },
+  "displayName": "Parquet Reader",
+  "publisher": "keta1930",
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": {
+      "supported": false
+    }
+  },
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "localParquet.reader",
+        "displayName": "Parquet Reader",
+        "selector": [
+          {
+            "filenamePattern": "*.parquet"
+          },
+          {
+            "filenamePattern": "*.pq"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "localParquet.open",
+        "title": "Parquet: 打开文件"
+      }
+    ]
+  },
+  "contributors": [
+    {
+      "name": "codex-gpt-6-astra"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/keta1930/parquet-reader.git"
+  },
+  "bugs": {
+    "url": "https://github.com/keta1930/parquet-reader/issues"
+  },
+  "homepage": "https://github.com/keta1930/parquet-reader#readme"
+}

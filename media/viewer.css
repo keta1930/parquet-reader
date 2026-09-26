@@ -1,0 +1,14 @@
+body { font-family: var(--vscode-font-family); color: var(--vscode-foreground); padding: 16px 22px; }
+header, nav, form { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+header { margin-bottom: 20px; } header strong { font-size: 20px; } header span { opacity: .65; }
+button { background: var(--vscode-button-background); color: var(--vscode-button-foreground); border: 0; padding: 6px 12px; cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+input, select { background: var(--vscode-input-background); color: var(--vscode-input-foreground); border: 1px solid var(--vscode-input-border, transparent); padding: 5px; }
+input { width: 100px; } :focus-visible { outline: 1px solid var(--vscode-focusBorder); outline-offset: 2px; }
+main { max-height: 60vh; overflow: auto; border: 1px solid var(--vscode-panel-border); margin-top: 14px; }
+table { border-collapse: collapse; font-size: 13px; width: 100%; text-align: left; }
+th, td { border-bottom: 1px solid var(--vscode-panel-border); padding: 8px 12px; white-space: pre; max-width: 420px; overflow: hidden; text-overflow: ellipsis; }
+th { position: sticky; top: 0; background: var(--vscode-editor-background); z-index: 1; }
+td { cursor: pointer; } tbody tr:hover { background: var(--vscode-list-hoverBackground); }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 240px; overflow: auto; font-family: var(--vscode-editor-font-family); }
+summary { cursor: pointer; } #status { color: var(--vscode-descriptionForeground); }
